@@ -15,7 +15,6 @@ export default function Home() {
     const [error, setError] = useState("")
     const [difficulty_level, setDifficulty_level] = useState("Difficulty Level")
     const [course_name, setCourse_name] = useState("Selece Course")
-    console.log(ten_mark_question, tow_mark_question, five_mark_question)
     function handleCourse(course) {
         setCourse_name(course)
     }
@@ -24,7 +23,6 @@ export default function Home() {
     }
     function handleSubmit(e) {
         e.preventDefault();
-        console.log("hello")
         if (isNaN(tow_mark_question) || tow_mark_question == "") {
             setError("Enter Valid 2 Mark Question ");
             return false;
@@ -49,20 +47,19 @@ export default function Home() {
             five_mark_question: five_mark_question,
             ten_mark_question: ten_mark_question,
             prac_questions: prac_questions,
-
-
         }
 
+        console.log(QuestionDetails)
         service.getQuestion(QuestionDetails).then((res) => {
             const data = res.data;
             setDatas(data);
-            console.log(datas)
+            console.log(data)
         }).catch(
             (erroe) => {
                 console.log(error)
             }
         )
-        console.log(ten_mark_question, tow_mark_question, five_mark_question, prac_questions)
+
     }
     return (
         <>
