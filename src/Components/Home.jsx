@@ -5,13 +5,15 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import FutogenLogo from '../assets/futogen_logo.png'
 import { FigureCaption } from "react-bootstrap";
 import service from "../Service/service";
+import { useNavigate } from "react-router-dom";
 export default function Home() {
+    const navigater = useNavigate()
 
-    const [tow_mark_question, setTow_marks_question] = useState();
+    const [two_mark_question, setTwo_marks_question] = useState();
     const [ten_mark_question, setTen_mark_question] = useState();
     const [five_mark_question, setfive_mark_question] = useState();
-    const [prac_questions, setPrac_Questions] = useState();
-    const [datas, setDatas] = useState({})
+    const [prac_question, setPrac_Question] = useState();
+    const [datas, setDatas] = useState([])
     const [error, setError] = useState("")
     const [difficulty_level, setDifficulty_level] = useState("Difficulty Level")
     const [course_name, setCourse_name] = useState("Selece Course")
@@ -23,7 +25,11 @@ export default function Home() {
     }
     function handleSubmit(e) {
         e.preventDefault();
-        if (isNaN(tow_mark_question) || tow_mark_question == "") {
+        if (course_name == "" || course_name == "Selece Course") {
+            setError("Please Select Course ");
+            return false;
+        }
+        if (isNaN(two_mark_question) || two_mark_question == "") {
             setError("Enter Valid 2 Mark Question ");
             return false;
         }
@@ -31,7 +37,7 @@ export default function Home() {
             setError("Enter Valid 5 Mark..");
             return false;
         }
-        if (isNaN(prac_questions) || prac_questions == "") {
+        if (isNaN(prac_question) || prac_question == "") {
             setError("Enter Valid Prac Mark..");
             return false;
         }
@@ -39,33 +45,37 @@ export default function Home() {
             setError("Enter Valid 10 Mark..");
             return false;
         }
+        if (difficulty_level == "" || difficulty_level == "Difficulty Level") {
+            setError("Please Select Level ");
+            return false;
+        }
         setError("")
         const QuestionDetails = {
             course_name: course_name,
             difficulty_level: difficulty_level,
-            tow_mark_question: tow_mark_question,
+            two_mark_question: two_mark_question,
             five_mark_question: five_mark_question,
             ten_mark_question: ten_mark_question,
-            prac_questions: prac_questions,
+            prac_question: prac_question,
         }
-
-        console.log(QuestionDetails)
         service.getQuestion(QuestionDetails).then((res) => {
             const data = res.data;
-            setDatas(data);
             console.log(data)
+            navigater("/questionOutput", { state: data });
+
         }).catch(
             (erroe) => {
                 console.log(error)
             }
         )
+        console.log(datas)
 
     }
     return (
         <>
             <div className="main-container">
                 <div className="form-container border border-1 rounded shadow-sm">
-                    <form action="" onSubmit={handleSubmit}>
+                    <form action="" onSubmit={(e) => { handleSubmit(e) }}>
                         <div >
                             <div className="d-flex justify-content-center align-items-center">
                                 <img src={FutogenLogo} style={{ width: '50%' }} alt="" />
@@ -86,7 +96,7 @@ export default function Home() {
                             <div className="d-flex flex-wrap justify-content-md-between justify-content-center  mt-4">
                                 <div className="input-group">
                                     <label htmlFor="2Marks">2 Mark's</label>
-                                    <input type="text" id="2Marks" name="2Marks" onChange={(e) => { setTow_marks_question(e.target.value) }} />
+                                    <input type="text" id="2Marks" name="2Marks" onChange={(e) => { setTwo_marks_question(e.target.value) }} />
                                 </div>
                                 <div className="input-group">
                                     <label htmlFor="5Marks">5 Mark's</label>
@@ -101,7 +111,7 @@ export default function Home() {
                                 </div>
                                 <div className="input-group">
                                     <label htmlFor="Prac">Practical Question's</label>
-                                    <input type="text" id="Prac" name="Prac" onChange={(e) => { setPrac_Questions(e.target.value) }} />
+                                    <input type="text" id="Prac" name="Prac" onChange={(e) => { setPrac_Question(e.target.value) }} />
                                 </div>
                             </div>
 
