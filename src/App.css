@@ -127,23 +127,10 @@ input:focus {
     scale: 1.01;
 }
 
-/* Small Laptop */
-@media (max-width: 1024px) {
-    /* .futogen-logo {
-        width: 30vw;
-    } */
+/* Question component */
+.question_paper{
+    font-family: 'Times New Roman', Times, serif;
 }
-
-/* Tablet */
-@media (max-width: 768px) {
-    /* .futogen-logo {
-        width: 25vw;
-    } */
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    /* .futogen-logo {
-        width: 50vw;
-    } */
+table,tr,td,th{
+    border: 1px solid black;
 }

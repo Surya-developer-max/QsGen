@@ -8,12 +8,14 @@ import gsap from 'gsap';
 export default function QuestionOut() {
     const location = useLocation();
     const { data, local_question_details } = location.state || {};
+
     const [two_mark, setTwo_marks] = useState();
     const [ten_mark, setTen_mark] = useState();
     const [five_mark, setfive_mark] = useState();
     const [prac_question, setPrac_Question] = useState();
     const [short_key, setShort_key] = useState();
     const questionRef = useRef();
+
     if (!data || !local_question_details) {
         return <h2>No Data Found</h2>;
     }
@@ -48,7 +50,7 @@ export default function QuestionOut() {
                     <center><img src={Futogen_logo} alt="" className='futogen-logo' /></center>
                 </div>
                 <div className='d-flex justify-content-center align-items-center flex-column'>
-                    <table className='question-paper-table mt-4' >
+                    <table className='question-paper-table mt-4' style={{ width: '90%' }} >
                         <thead>
                             <tr >
                                 <th className='text-center'><b>C</b></th>
@@ -64,7 +66,7 @@ export default function QuestionOut() {
                         </thead>
                     </table>
                 </div>
-                <div ref={questionRef}  className='d-flex justify-content-center align-items-center flex-column'>
+                <div ref={questionRef} className='d-flex justify-content-center align-items-center flex-column'>
 
                     {local_question_details?.short_key != 0 ? <div style={{ width: '90%' }} >
                         <div className=' mt-4  d-flex justify-content-between' >
@@ -81,7 +83,7 @@ export default function QuestionOut() {
                                     return (
                                         <tr key={inx}>
                                             <td style={{ width: '30px' }}><p className='p-0 ms-2 m-0'> {inx + 1}</p></td>
-                                            <td style={{ width: '300px' }}><p className='p-0 ms-2 m-0'>{val}</p></td>
+                                            <td style={{ width: '200px' }}><p className='p-0 ms-2 m-0'>{val}</p></td>
                                             <td ></td>
                                         </tr>
                                     );
@@ -90,7 +92,7 @@ export default function QuestionOut() {
                         </table>
                     </div> : ""}
 
-                    {local_question_details?.two_mark != 0 ? <div style={{ width: '90%' }}> 
+                    {local_question_details?.two_mark != 0 ? <div style={{ width: '90%' }}>
                         <div className=' mt-4  d-flex justify-content-between' >
                             <div className='d-flex'>
                                 <p className='mx-1 m-0 my-1'><b className='roman_letter'>II</b></p><p className='mx-1 m-0 my-1'><b> Answer the Questions (any {local_question_details.two_mark}) :-</b></p>
@@ -183,7 +185,6 @@ export default function QuestionOut() {
                         </div>
                         : ""}
                 </div>
-
             </div>
         </>
     );
