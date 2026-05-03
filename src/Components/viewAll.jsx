@@ -7,8 +7,6 @@ import service from "../Service/service";
 import Content_Categories from '../assets/Content Categories .png'
 export default function ViewAll() {
 
-
-
     // LODER
     const [isLoading, setIsLoading] = useState(true)
 
@@ -19,6 +17,7 @@ export default function ViewAll() {
     const [error, setError] = useState("")
     const [count, setCount] = useState(0)
     const [deleteId, setDeleteId] = useState(0)
+
     // FOR EDIT QUESTIONS
     const [mark, setMark] = useState();
     const [course_name, setCourse_name] = useState("");
@@ -28,7 +27,6 @@ export default function ViewAll() {
     // FOR PAGENATION
     const [currentPage, setCurrentPage] = useState(1);
     const [questionPerPage, setQuestionPerPage] = useState(10)
-
     const indexOfLaseQuestion = currentPage * questionPerPage
     const indexOfFirstQuestion = indexOfLaseQuestion - questionPerPage
     const totalPages = Math.ceil(data.length / questionPerPage)
@@ -84,6 +82,7 @@ export default function ViewAll() {
             ease: 'elastic.out',
         })
     })
+    
     // ------------FOR BUTTON------------
     useEffect(() => {
         btnRef.current.setAttribute('disabled', "true")
@@ -478,7 +477,7 @@ export default function ViewAll() {
                 <div className="conform-delete shadow rounded p-5 d-flex flex-column justify-content-center align-items-center">
                     <p className="m-0 p-1 " style={{ fontWeight: '600' }}>Comform Delete </p>
                     <div>
-                        <button className="btn btn-warning m-1 px-4" onClick={()=>{tl3.current.reverse()}} >Close</button>
+                        <button className="btn btn-warning m-1 px-4" onClick={() => { tl3.current.reverse() }} >Close</button>
                         <button className="btn btn-danger  px-4 m-1" onClick={conformDelete}>Delete</button>
                     </div>
                 </div>

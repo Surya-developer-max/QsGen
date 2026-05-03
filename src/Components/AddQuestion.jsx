@@ -101,16 +101,6 @@ export default function AddQuestion() {
 
             service.addQuestion(data).then((res) => {
                 tl.current.play();
-                // console.log(res.status == 500)
-                // setTimeout(() => {
-                //     tl.current.reverse();
-                // }, 2000);
-
-                // setQuestion("")
-                // setMark("Select Value")
-                // setCourse_name("Select Course")
-                // setDifficulty_level("Difficulty Level")
-
             }).catch((e) => {
 
                 if (e.status == 500) {
@@ -178,10 +168,7 @@ export default function AddQuestion() {
         <>
             <div className="add-question-container mt-5">
                 {/* ------------------------------HEADER--------------------------- */}
-
-               
-
-                <div className="form-container-2  d-flex align-items-center position-relative w-100 mt-3" style={{zIndex:'1'}}>
+                <div className="form-container-2  d-flex align-items-center position-relative w-100 mt-3" style={{ zIndex: '1' }}>
                     <form action="" className='mx-auto' onSubmit={handleSubmit}>
                         <div className='box rounded p-3 add-form'>
                             <div>
@@ -236,7 +223,7 @@ export default function AddQuestion() {
                                 </div>
                             </div>
                             <div className='d-flex w-100 justify-content-center flex-wrap justify-content-sm-between mt-3'>
-                                <input type="file"  hidden ref={fileRef} onChange={handleFile} accept='.xlsx, .xls .csv' />
+                                <input type="file" hidden ref={fileRef} onChange={handleFile} accept='.xlsx, .xls .csv' />
                                 <button className=' m-2 btn btn-secondary' type='button' onClick={handleClick}><span><i className="ri-file-upload-line"></i></span>Uplode Excel (bulk)</button>
                                 <button className=' m-2 btn btn-success' type='submit' ref={btnRef}>Submit Question <span><i className="ri-send-plane-2-fill"></i></span></button>
                             </div>

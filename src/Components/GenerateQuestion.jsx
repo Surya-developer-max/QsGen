@@ -7,6 +7,7 @@ import { FigureCaption } from "react-bootstrap";
 import service from "../Service/service";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+
 export default function GenerateQuestion() {
 
     const navigater = useNavigate()
@@ -55,8 +56,6 @@ export default function GenerateQuestion() {
         gsap.set('.error', {
             x: "100%",
         })
-
-
         tl.current = gsap.timeline({ paused: true });
 
         tl.current
@@ -328,6 +327,7 @@ export default function GenerateQuestion() {
                 <div className="error">
                     <p className="p-0 m-0 text-danger fs-5">{error}</p>
                 </div>
+
                 <div style={{ backgroundColor: '#fbeac9', color: '#C77700' }} className="question-error rounded d-flex justify-content-center align-items-center p-2">
                     <p className="m-0 " style={{ fontWeight: '700' }}>{questionError}</p>
                 </div>

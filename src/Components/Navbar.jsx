@@ -8,7 +8,6 @@ export default function Navbar() {
     return (
         <>
             <BrowserRouter>
-
                 <div className="nav-container shadow">
                     <div className="part1 ">
                         <Link to='/'><img src={FutoGenLogo} className='futogen-logo ' alt="" /></Link>
@@ -18,7 +17,6 @@ export default function Navbar() {
                         <button className='btn btn-success mx-1 '><Link to='/addQuestion' className='text-white text-decoration-none'>Add Question</Link></button>
                     </div>
                 </div>
-
                 <Routes>
                     <Route path='/' element={<ViewAll />} />
                     <Route path='/questionOutput' element={<QuestionOut />} />

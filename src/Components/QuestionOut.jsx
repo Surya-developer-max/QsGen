@@ -7,12 +7,11 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-
 export default function QuestionOut() {
+
     const location = useLocation();
     const { data, local_question_details } = location.state || {};
     const [isLoading, setIsLoading] = useState(true)
-
     const printRef = useRef();
     const [two_mark, setTwo_marks] = useState();
     const [ten_mark, setTen_mark] = useState();
@@ -35,8 +34,6 @@ export default function QuestionOut() {
     const month = (now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1));
     const year = (now.getFullYear());
     const time = `${now.getHours()}:${now.getMinutes()}`
-
-
 
     const handleDownloadPdf = async () => {
         const element = printRef.current;
@@ -90,7 +87,7 @@ export default function QuestionOut() {
                     </div>
                 </div>
                 {isLoading ?
-                    <div className='d-flex justify-content-center align-items-center' style={{width:'100%',height:'500px'}}>
+                    <div className='d-flex justify-content-center align-items-center' style={{ width: '100%', height: '500px' }}>
                         <div class="book">
                             <div class="book__pg-shadow"></div>
                             <div class="book__pg"></div>
@@ -279,8 +276,6 @@ export default function QuestionOut() {
                             </div>
                         </div>
                     </div>}
-
-
             </div>
         </>
     );
