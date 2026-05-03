@@ -336,7 +336,7 @@ export default function ViewAll() {
                             </Col>
                             <Col md={2} sm={6} >
                                 <div>
-                                    <p className="m-0 p-0 input-name" >All</p>
+                                    <p className="m-0 p-0 input-name" >DIFFICULTY LEVEL</p>
                                     <select className=" w-100 rounded border-0 " style={{ height: '50px', backgroundColor: '' }} onChange={handleFilterDiffiLevel} >
                                         <option value="All">All</option>
                                         <option value="Easy">Easy</option>
