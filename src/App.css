@@ -323,8 +323,13 @@ th {
     height: 5px;
     border-radius: 50%;
 }
+.icon-hover{
+    transition: .5;
+    border-radius: 50%;
+}
 
 .icon-hover:hover {
+    background-color: rgb(205, 205, 205);
     cursor: pointer;
 }
 

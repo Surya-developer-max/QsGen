@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import service from "../Service/service";
 import Content_Categories from '../assets/Content Categories .png'
+import NoData from '../assets/No data-bro.png'
 export default function ViewAll() {
 
     // LODER
@@ -391,8 +392,8 @@ export default function ViewAll() {
                                                 </div>
                                             )
                                         }) :
-                                            <div className="w-100  d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
-                                                <p className="fs-1 h1 ">:-( </p>
+                                            <div className="w-100  d-flex justify-content-center align-items-center" >
+                                              <img src={NoData} style={{width:'400px'}} className="img-fluid" alt="" />
                                             </div>
                                         }
                                     </div>
