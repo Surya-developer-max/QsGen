@@ -4,12 +4,34 @@
     box-sizing: border-box;
 }
 
+.nav-container {
+    height: 80px;
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    background-color: whitesmoke;
+    z-index: 2;
+}
+
+.part1 {
+    position: absolute;
+    width: 100%;
+}
+
+.part2 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    right: 0px;
+}
+
 .body-container {
     max-width: 800px;
 }
 
 .futogen-logo {
-    width: clamp(200px, 20vw, 500px);
+    width: clamp(150px, 12vw, 300px);
 }
 
 .input-name {
@@ -20,6 +42,10 @@
 }
 
 .form-container {
+    background-color: var(--lignt-ash);
+}
+
+.add-form {
     background-color: var(--lignt-ash);
 }
 
@@ -49,6 +75,13 @@ textarea:focus {
     width: 50px;
 }
 
+.question-error {
+    position: absolute;
+    top: 100px;
+    left: 0px;
+    width: 200px;
+}
+
 /* -------------------------------ERROR------------------------- */
 .error {
     position: fixed;
@@ -56,7 +89,7 @@ textarea:focus {
     width: 300px;
     background-color: rgba(255, 0, 0, 0.229);
     box-shadow: 0px 0px 10px rgb(226, 226, 226);
-    top: 20px;
+    top: 100px;
     right: 0px;
     border-radius: 10px 0px 0px 10px;
     display: flex;
@@ -94,7 +127,6 @@ textarea:focus {
     justify-content: center;
     align-items: center;
     text-align: center;
-
 }
 
 .card p {
@@ -110,6 +142,8 @@ textarea:focus {
 .card button:active {
     scale: 1.01;
 }
+
+
 
 /* Question component */
 .Qs-container {
@@ -134,9 +168,14 @@ textarea:focus {
 }
 
 .question-paper-main-container {
+    position: relative;
+    z-index: 0;
     width: 100%;
     overflow: hidden;
+    /* display: none; */
 }
+
+
 
 .waterMark {
     position: absolute;
@@ -150,11 +189,6 @@ textarea:focus {
 .waterMark img {
     opacity: 0.2;
     width: 650px;
-}
-
-.question_paper {
-    background-color: #efefef;
-    position: relative;
 }
 
 .question_paper p {
@@ -222,13 +256,23 @@ th {
 
 /* ------------------------------------------ADD QUESTION--------------------------------------- */
 .box {
-    background-color: var(--question-bg);
+    background-color: var(--lignt-ash);
 }
 
 /* -------------------------------VIEW ALL QUESTION------------------------------ */
 .view-body {
     z-index: 1;
     background-color: var(--lignt-ash);
+}
+
+.conform-delete {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    backdrop-filter: blur(3px);
+    z-index: 3;
 }
 
 .question-body {
@@ -253,6 +297,14 @@ th {
 .question-block,
 .search-block {
     background-color: var(--question-bg);
+}
+
+.question-block {
+    transition: .5s;
+}
+
+.question-block:hover {
+    transform: translateY(-5px);
 }
 
 .diffi-level {
@@ -290,6 +342,26 @@ th {
     width: max-content;
     background-color: rgba(189, 189, 189, 0.69);
 }
+
+.edit-pop-up {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #d4f8e0;
+    color: #1E8E3E;
+    /* padding: 20px; */
+    z-index: 5;
+    width: 200px;
+    height: 50px;
+}
+
+.edit-pop-up p {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+@media screen and (max-width:800px) {}
 
 @media screen and (min-width:799px) {
     .box {

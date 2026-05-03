@@ -7,11 +7,12 @@ import { FigureCaption } from "react-bootstrap";
 import service from "../Service/service";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-export default function Home() {
+export default function GenerateQuestion() {
 
     const navigater = useNavigate()
     const buttonRef = useRef();
     const [total_mark, setTotal_mark] = useState(1);
+    const [questionError, setQuestionError] = useState("")
     const [two_mark_question, setTwo_marks_question] = useState(0);
     const [ten_mark_question, setTen_mark_question] = useState(0);
     const [five_mark_question, setfive_mark_question] = useState(0);
@@ -23,6 +24,7 @@ export default function Home() {
     const [total_calculated_mark, setTotal_calculated_mark] = useState(0)
     const [data, setData] = useState();
     const tl = useRef();
+    const tl2 = useRef();
 
     const local_question_details = {
         short_key: short_key,
@@ -60,7 +62,7 @@ export default function Home() {
         tl.current
             .to('.plug-in', {
                 opacity: 1,
-                zIndex: 1,
+                zIndex: 10,
                 duration: .6,
                 ease: 'power3.out'
             }, 0)
@@ -68,10 +70,18 @@ export default function Home() {
                 opacity: 0,
                 ease: 'power2.out',
                 duration: 0.2,
-                zIndex: 2,
+                zIndex: 11,
                 y: 30,
                 scale: 0.98,
             }, 0.4); // overlap animation
+
+        tl2.current = gsap.timeline({ paused: true });
+        tl2.current.from('.question-error', {
+            x: -200,
+            opacity: 0,
+            duration: 1,
+            ease: 'elastic.out',
+        })
     }, [])
 
 
@@ -164,7 +174,44 @@ export default function Home() {
 
         service.getQuestion(QuestionDetails).then((res) => {
             setData(res.data);
-            tl.current.play();
+            if (res.data.short_key.length < local_question_details.short_key) {
+                setQuestionError(`We don't have enough short key question's`)
+                tl2.current.play();
+                setTimeout(() => {
+                    tl2.current.reverse();
+                }, 1000);
+            }
+            else if (res.data.two_mark.length < local_question_details.two_mark) {
+                setQuestionError(`We don't have enough two mark question's`)
+                tl2.current.play();
+                setTimeout(() => {
+                    tl2.current.reverse();
+                }, 1000);
+            }
+            else if (res.data.five_mark.length < local_question_details.five_mark) {
+                setQuestionError(`We don't have enough five mark question's`)
+                tl2.current.play();
+                setTimeout(() => {
+                    tl2.current.reverse();
+                }, 1000);
+            }
+            else if (res.data.ten_mark.length < local_question_details.ten_mark) {
+                setQuestionError(`We don't have enough ten mark question's`)
+                tl2.current.play();
+                setTimeout(() => {
+                    tl2.current.reverse();
+                }, 1000);
+            }
+            else if (res.data.prac.length < local_question_details.prac) {
+                setQuestionError(`We don't have enough pratical question's`)
+                tl2.current.play();
+                setTimeout(() => {
+                    tl2.current.reverse();
+                }, 1000);
+            }
+            else {
+                tl.current.play();
+            }
         }).catch((erroe) => {
             console.log(erroe)
         }
@@ -184,10 +231,9 @@ export default function Home() {
 
     return (
         <>
-            <div className="main-container w-100 d-flex justify-content-center position-relative" style={{height:'100vh'}}>
-                <div className="body-container position-relative" style={{zIndex:'1'}}>
+            <div className="main-container mt-5 w-100 d-flex justify-content-center" >
+                <div className="body-container position-relative" style={{ zIndex: '1' }}>
                     <div className="header d-flex justify-content-center align-items-center w-100 flex-column">
-                        <img src={FutogenLogo} className="futogen-logo" alt="" />
                         <div className="box-1 w-100 d-flex flex-column align-items-center" >
                             <h3>Create Examination</h3>
                             <p style={{ fontSize: '15px' }} className="text-center">Engineer high-precision assessment tools with our advanced algorithmic paper generator. Define your parameters and let the architect handle the complexity</p>
@@ -282,6 +328,9 @@ export default function Home() {
                 <div className="error">
                     <p className="p-0 m-0 text-danger fs-5">{error}</p>
                 </div>
+                <div style={{ backgroundColor: '#fbeac9', color: '#C77700' }} className="question-error rounded d-flex justify-content-center align-items-center p-2">
+                    <p className="m-0 " style={{ fontWeight: '700' }}>{questionError}</p>
+                </div>
 
                 <div className="plug-in" onClick={handleClose}>
                     <div className="card" >
@@ -289,7 +338,6 @@ export default function Home() {
                         <button onClick={handleRederictQuestionPaper} className="btn btn-success">Start Test</button>
                     </div>
                 </div>
-                
             </div >
         </>
     );

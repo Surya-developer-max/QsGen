@@ -40,7 +40,7 @@ export default function AddQuestion() {
         tl.current
             .to('.plug-in', {
                 opacity: 1,
-                zIndex: 1,
+                zIndex: 10,
                 duration: .6,
                 ease: 'power3.out'
             }, 0)
@@ -48,7 +48,7 @@ export default function AddQuestion() {
                 opacity: 0,
                 ease: 'power2.out',
                 duration: 0.2,
-                zIndex: 2,
+                zIndex: 11,
                 y: 30,
                 scale: 0.98,
             }, 0.4); // overlap animation
@@ -176,18 +176,14 @@ export default function AddQuestion() {
 
     return (
         <>
-            <div className="add-question-container position-relative">
+            <div className="add-question-container mt-5">
                 {/* ------------------------------HEADER--------------------------- */}
 
-                <div className=" d-flex">
-                    <div className='mx-auto mt-2'>
-                        <img src={Futogen_logo} className='futogen-logo ' alt="" />
-                    </div>
-                </div>
+               
 
                 <div className="form-container-2  d-flex align-items-center position-relative w-100 mt-3" style={{zIndex:'1'}}>
                     <form action="" className='mx-auto' onSubmit={handleSubmit}>
-                        <div className='box rounded p-3'>
+                        <div className='box rounded p-3 add-form'>
                             <div>
                                 <h3 className='' style={{ fontWeight: '700' }}>Question Entry</h3>
                                 <p style={{ fontSize: '15px' }}>Add individual items to your academic question bank with precision.</p>
