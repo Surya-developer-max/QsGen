@@ -475,7 +475,7 @@ export default function ViewAll() {
                     </div>
                 </div>
                 <div className="conform-delete shadow rounded p-5 d-flex flex-column justify-content-center align-items-center">
-                    <p className="m-0 p-1 " style={{ fontWeight: '600' }}>Comform Delete </p>
+                    <p className="m-0 p-1 " style={{ fontWeight: '600' }}>Are you sure! </p>
                     <div>
                         <button className="btn btn-warning m-1 px-4" onClick={() => { tl3.current.reverse() }} >Close</button>
                         <button className="btn btn-danger  px-4 m-1" onClick={conformDelete}>Delete</button>
