@@ -83,7 +83,7 @@ export default function ViewAll() {
             ease: 'elastic.out',
         })
     })
-    
+
     // ------------FOR BUTTON------------
     useEffect(() => {
         btnRef.current.setAttribute('disabled', "true")
@@ -96,7 +96,7 @@ export default function ViewAll() {
     useEffect(() => {
         service.getAllQuestion().then((res) => {
             const data = res.data;
-            setData(data)
+            setData(data.sort((a, b) => b.id - a.id))
             const currentPage = data.slice(indexOfFirstQuestion, indexOfLaseQuestion)
             setDummyData(currentPage)
             setTimeout(() => {
@@ -393,7 +393,7 @@ export default function ViewAll() {
                                             )
                                         }) :
                                             <div className="w-100  d-flex justify-content-center align-items-center" >
-                                              <img src={NoData} style={{width:'400px'}} className="img-fluid" alt="" />
+                                                <img src={NoData} style={{ width: '400px' }} className="img-fluid" alt="" />
                                             </div>
                                         }
                                     </div>
@@ -478,7 +478,7 @@ export default function ViewAll() {
                 <div className="conform-delete shadow rounded p-5 d-flex flex-column justify-content-center align-items-center">
                     <p className="m-0 p-1 " style={{ fontWeight: '600' }}>Are you sure! </p>
                     <div>
-                        <button className="btn btn-warning m-1 px-4" onClick={() => { tl3.current.reverse() }} >Close</button>
+                        <button className="btn btn-success m-1 px-4" onClick={() => { tl3.current.reverse() }} >Close</button>
                         <button className="btn btn-danger  px-4 m-1" onClick={conformDelete}>Delete</button>
                     </div>
                 </div>
