@@ -24,6 +24,7 @@ export default function ViewAll() {
     const [course_name, setCourse_name] = useState("");
     const [difficulty_level, setDifficulty_level] = useState("Difficulty Level");
     const [question, setQuestion] = useState("");
+    const [topic, setTopic] = useState("")
 
     // FOR PAGENATION
     const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +40,7 @@ export default function ViewAll() {
     const [filterCourseName, setFilterCourseName] = useState("All");
     const [filterDiffi, setFilterDiffi] = useState("All");
     const [search, setSearch] = useState(null);
+    const [filterTopic, setFilterTopic] = useState("")
     const navigate = useNavigate();
 
     const tl = useRef();
@@ -116,6 +118,11 @@ export default function ViewAll() {
                 items.question.toLowerCase().includes(search.toLowerCase())
             )
         }
+        if (filterTopic != "" && filterTopic) {
+            result = result.filter((items) =>
+                items.topic.toLowerCase().includes(filterTopic.toLowerCase())
+            )
+        }
         //    course
         if (filterCourseName != "All") {
             result = result.filter((items) =>
@@ -138,7 +145,7 @@ export default function ViewAll() {
         setFilterDummyPages(Math.ceil(result.length / questionPerPage))
         setDummyData(currentPage1)
 
-    }, [filterCourseName, filterDiffi, filterMark, search, currentPage])
+    }, [filterCourseName, filterDiffi, filterMark, search, currentPage, filterTopic])
 
 
     function handleClose() {
@@ -180,8 +187,13 @@ export default function ViewAll() {
             errorInOut();
         }
     }
-
-
+    function handleTopic(e) {
+        setTopic(e.target.value)
+        if (e.target.value == "") {
+            setError("Topic can't be empty")
+            errorInOut();
+        }
+    }
     //---------------- FOR FILETER DATAS--------------------
     function handlefilterCourseName(e) {
         if (currentPage != 1) {
@@ -208,6 +220,10 @@ export default function ViewAll() {
         }
         setSearch(e.target.value)
     }
+     function handleFilterTopic(e) {
+        setFilterTopic(e.target.value)
+    }
+   
     // ------------------FOR HANDLE EDIT--------------------
     function handleEdit(id) {
         service.getQuestionById(id).then((res) => {
@@ -217,6 +233,7 @@ export default function ViewAll() {
             setDifficulty_level(data.difficulty_level)
             setMark(data.marks)
             setQuestion(data.question)
+            setTopic(data.topic)
             tl.current.play();
         }).catch((e) => {
             console.log(e)
@@ -256,6 +273,7 @@ export default function ViewAll() {
             question: question,
             difficulty_level: difficulty_level,
             marks: mark,
+            topic: topic
         }
 
         service.editQustion(data, questionId).then((res) => {
@@ -269,7 +287,11 @@ export default function ViewAll() {
             }, 2000);
 
         }).catch((e) => {
-            console.log(e)
+            console.log(e.status)
+            if (e.status == 500) {
+                setError("Question Already Exist")
+                errorInOut();
+            }
         })
     }
 
@@ -305,9 +327,12 @@ export default function ViewAll() {
                     {/* -------------------------SEARCH AND FILTER BLOCK--------------------- */}
                     <div className="search-block pb-2 px-2 rounded">
                         <Row >
-                            <Col md={6} >
-                                <div className=" h-100 " style={{ marginTop: '20px' }} >
+                            <Col md={6} className="d-flex">
+                                <div className=" h-100 me-1" style={{ marginTop: '20px', width: '50%' }} >
                                     <input type="text" placeholder="Search question, keywords, or topics..." className="w-100" onChange={handleSearch} />
+                                </div>
+                                <div className=" h-100 " style={{ marginTop: '20px', width: '50%' }} >
+                                    <input type="text" placeholder="Search by topic" className="w-100" onChange={handleFilterTopic} />
                                 </div>
                             </Col>
                             <Col md={2} sm={12} xs={6}>
@@ -358,6 +383,7 @@ export default function ViewAll() {
                                 <div className="part-2"> <p className="text-secondary" style={{ fontWeight: '500', fontSize: '13px' }}>COURSE</p></div>
                                 <div className="part-3"><p className="text-secondary" style={{ fontWeight: '500', fontSize: '13px' }}>MARKS</p></div>
                                 <div className="part-4"><p className="text-secondary" style={{ fontWeight: '500', fontSize: '13px' }}>DIFFICULTY</p></div>
+                                <div className="part-4"><p className="text-secondary" style={{ fontWeight: '500', fontSize: '13px' }}>TOPIC</p></div>
                                 <div className="part-5"><p className="text-secondary" style={{ fontWeight: '500', fontSize: '13px' }}>ACTION</p></div>
                             </div>
                             <div className=""><p className="text-secondary m-0" style={{ fontWeight: '500', fontSize: '13px' }}>Showing:{filterDataLength == 0 ? dummyData.length : filterDataLength} of {data.length}</p></div>
@@ -388,6 +414,7 @@ export default function ViewAll() {
                                                         {val.difficulty_level == "Easy" ? <div className="diffi-level" style={{ backgroundColor: '#d4f8e0', color: '#1E8E3E' }}> <div className="dot" style={{ backgroundColor: '#1E8E3E' }}></div> <p className="m-0" >  EASY</p></div> :
                                                             val.difficulty_level == "Medium" ? <div className="diffi-level" style={{ backgroundColor: '#fbeac9', color: '#C77700' }}> <div className="dot" style={{ backgroundColor: ' #C77700' }}></div> <p className="m-0" >MEDIUM</p></div> :
                                                                 <div className="diffi-level" style={{ backgroundColor: '#f8d1d0', color: '#D32F2F' }}> <div className="dot" style={{ backgroundColor: '#D32F2F' }}></div> <p className="m-0" >  HARD</p></div>}</div>
+                                                    <div className="part-2"> <p className="text-success m-0">{val.topic}</p></div>
                                                     <div className="part-5"><i className="ri-pencil-ai-line mx-1 icon-hover p-2" onClick={(e) => { handleEdit(val.id) }}></i><i className="ri-delete-bin-line mx-1 icon-hover p-2" onClick={() => { handleDelete(val.id) }}></i></div>
                                                 </div>
                                             )
@@ -409,8 +436,8 @@ export default function ViewAll() {
                     </div>
                 </div>
                 {/* -----------------------------------ERROR--------------------------- */}
-                <div className="error">
-                    <p className="p-0 m-0 text-danger fs-5">{error}</p>
+                <div className="error" style={{ position: 'fixed', zIndex: 50 }}>
+                    <p className="p-0 m-0 text-light fs-5">{error}</p>
                 </div>
                 {/* -------------------------------EDIT QUESTION PLUG IN-------------------------- */}
                 <div className="plug-in" >
@@ -462,7 +489,11 @@ export default function ViewAll() {
                                     </Row>
                                 </div>
                                 <div>
-                                    <h4 className='mt-5' style={{ fontSize: '15px' }}><span className='text-success'><i className="ri-book-shelf-fill"></i></span>QUESTION COMPOSITION</h4>
+                                    <label htmlFor="" className="mt-3 text-success" style={{ fontSize: '13px', fontWeight: '600' }}>TOPIC</label>
+                                    <input type="text" value={topic} onChange={(e) => { handleTopic(e) }} />
+                                </div>
+                                <div>
+                                    <h4 className='mt-3' style={{ fontSize: '15px' }}><span className='text-success'><i className="ri-book-shelf-fill"></i></span>QUESTION COMPOSITION</h4>
                                     <div>
                                         <textarea rows="5" className='w-100 rounded border border-1 p-1' placeholder='Type or paste your academic question here...' value={question} onChange={handleQuestion}></textarea>
                                     </div>

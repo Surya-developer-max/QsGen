@@ -12,6 +12,7 @@ export default function AddQuestion() {
     const [difficulty_level, setDifficulty_level] = useState("Difficulty Level");
     const [question, setQuestion] = useState("");
     const [error, setError] = useState("")
+    const [topic, setTopic] = useState("")
     const [mark, setMark] = useState("Select Value");
 
     const [excelFile, setExcelFile] = useState();
@@ -22,15 +23,32 @@ export default function AddQuestion() {
     const btnRef = useRef("");
     const tl = useRef();
 
+    const [allQuestion, setAllQuestion] = useState([])
+    const [filterQuestion, setFilterQuestion] = useState([])
+    const el = document.querySelector('.topic-overlay')
+
+    useEffect(() => {
+        service.getAllQuestion().then(res => {
+            setAllQuestion(res.data)
+
+        }).catch(e => {
+            console.log(e)
+        })
+        const el = document.querySelector('.topic-overlay')
+
+        el.style.height = "0px"
+    }, [])
+
+
     useEffect(() => {
         btnRef.current.setAttribute('disabled', "true")
-        if (question != "" && difficulty_level != "Difficulty Level" && course_name != "Select Course" && mark != "Select Value") {
+        if (question != "" && difficulty_level != "Difficulty Level" && course_name != "Select Course" && mark != "Select Value" && topic != "") {
             btnRef.current.removeAttribute('disabled')
         }
         if (data.length != 0) {
             btnRef.current.removeAttribute('disabled')
         }
-    }, [mark, course_name, question, difficulty_level, data])
+    }, [mark, course_name, question, difficulty_level, data, topic])
 
     useGSAP(() => {
         gsap.set('.error', {
@@ -86,6 +104,31 @@ export default function AddQuestion() {
             errorInOut();
         }
     }
+    function handleTopic(e) {
+        setTopic(e.target.value)
+        if (e.target.value == "") {
+            setError("Add Some Topic")
+            errorInOut();
+        }
+        el.style.height = "200px"
+        setFilterQuestion(allQuestion.filter(item =>
+            item.topic.toLowerCase().includes((e.target.value).toLowerCase())
+        ))
+        console.log(filterQuestion.length)
+        if (filterQuestion.length == 0) {
+            el.style.height = "0px"
+        }
+    }
+    function setValue(e) {
+        console.log(e)
+        console.log(filterQuestion[e])
+        setCourse_name(filterQuestion[e].course_name)
+        setMark(filterQuestion[e].marks)
+        setDifficulty_level(filterQuestion[e].difficulty_level)
+        setQuestion(filterQuestion[e].question)
+        setTopic(filterQuestion[e].topic)
+        el.style.height = "0px"
+    }
 
     // ----------------------------------------SUBMIT HANDLER-----------------------------------
     function handleSubmit(e) {
@@ -97,14 +140,16 @@ export default function AddQuestion() {
                 question: question,
                 difficulty_level: difficulty_level,
                 marks: mark,
+                topic: topic.toLowerCase(),
             }
 
             service.addQuestion(data).then((res) => {
                 tl.current.play();
+
             }).catch((e) => {
 
                 if (e.status == 500) {
-                    setError("Server Error");
+                    setError("Question already exist");
                     errorInOut();
                 }
             })
@@ -168,7 +213,7 @@ export default function AddQuestion() {
         <>
             <div className="add-question-container mt-5">
                 {/* ------------------------------HEADER--------------------------- */}
-                <div className="form-container-2  d-flex align-items-center position-relative w-100 mt-3" style={{ zIndex: '1' }}>
+                <div className="form-container-2  d-flex align-items-center position-relative w-100  mt-3" style={{ zIndex: '1' }}>
                     <form action="" className='mx-auto' onSubmit={handleSubmit}>
                         <div className='box rounded p-3 add-form'>
                             <div>
@@ -216,8 +261,21 @@ export default function AddQuestion() {
                                     </Col>
                                 </Row>
                             </div>
+                            <div className='relative'>
+                                <div className='mt-4'>
+                                    <label htmlFor="" className='text-success ' style={{ fontSize: '13px', fontWeight: '600' }}> TOPIC</label>
+                                    <input type="text" onChange={(e) => { handleTopic(e) }} value={topic} />
+                                </div>
+                                <div className='position-absolute  bg-light border topic-overlay rounded-3 overflow-auto' style={{ height: '200px', width: '720px' }}>
+                                    {filterQuestion.map((el, inx) => {
+                                        return (
+                                            <p key={inx} onClick={() => { setValue(inx) }} className='cursor-pointer'>{el.question}</p>
+                                        )
+                                    })}
+                                </div>
+                            </div>
                             <div>
-                                <h4 className='mt-5' style={{ fontSize: '15px' }}><span className='text-success'><i className="ri-book-shelf-fill"></i></span>QUESTION COMPOSITION</h4>
+                                <h4 className='mt-3' style={{ fontSize: '15px' }}><span className='text-success'><i className="ri-book-shelf-fill"></i></span>QUESTION COMPOSITION</h4>
                                 <div>
                                     <textarea rows="5" className='w-100 rounded border border-1 p-1' placeholder='Type or paste your academic question here...' value={question} onChange={handleQuestion}></textarea>
                                 </div>
@@ -232,7 +290,7 @@ export default function AddQuestion() {
                 </div>
 
                 <div className="error">
-                    <p className="p-0 m-0 text-danger fs-5">{error}</p>
+                    <p className="p-0 m-0 text-light fs-5">{error}</p>
                 </div>
 
                 <div className="plug-in" onClick={handleClose}>

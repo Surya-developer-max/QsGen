@@ -19,6 +19,7 @@ export default function GenerateQuestion() {
     const [five_mark_question, setfive_mark_question] = useState(0);
     const [prac_question, setPrac_Question] = useState(0);
     const [short_key, setShort_key] = useState(0);
+    const [topic, setTopic] = useState("")
     const [error, setError] = useState("")
     const [difficulty_level, setDifficulty_level] = useState("Difficulty Level")
     const [course_name, setCourse_name] = useState("Select Course")
@@ -46,10 +47,10 @@ export default function GenerateQuestion() {
             errorInOut();
         }
 
-        if (total_calculated_mark == total_mark && course_name != "Select Course" && difficulty_level != "Difficulty Level") {
+        if (total_calculated_mark == total_mark && course_name != "Select Course" && difficulty_level != "Difficulty Level" && topic != "") {
             buttonRef.current.removeAttribute('disabled')
         }
-    }, [total_calculated_mark, total_mark, short_key, ten_mark_question, two_mark_question, five_mark_question, prac_question, course_name, difficulty_level])
+    }, [total_calculated_mark, total_mark, short_key, ten_mark_question, two_mark_question, five_mark_question, prac_question, course_name, difficulty_level, topic])
 
     useGSAP(() => {
 
@@ -104,6 +105,13 @@ export default function GenerateQuestion() {
             setError("Enter Valid 2 Mark Question ");
         }
     }
+    function handleTopic(e) {
+        setTopic(e.target.value)
+        if (e.target.value == "") {
+            errorInOut();
+            setError("Topic Con't be Empty ");
+        }
+    }
     function handleFiveMarks(e) {
         setfive_mark_question(Number(e.target.value))
         if (isNaN(e.target.value)) {
@@ -143,22 +151,22 @@ export default function GenerateQuestion() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        if (difficulty_level == "" || difficulty_level == "Difficulty Level" || course_name == null) {
-            errorInOut();
-            setError("Please Select Level ");
-            return false;
-        }
-        if (total_mark == 0) {
-            errorInOut();
-            setError("Please Set Mark Limit ");
-            return false;
-        }
+        // if (difficulty_level == "" || difficulty_level == "Difficulty Level" || course_name == null) {
+        //     errorInOut();
+        //     setError("Please Select Level ");
+        //     return false;
+        // }
+        // if (total_mark == 0) {
+        //     errorInOut();
+        //     setError("Please Set Mark Limit ");
+        //     return false;
+        // }
 
-        if (course_name == "" || course_name == "Select Course" || course_name == null) {
-            errorInOut();
-            setError("Please Select Course ");
-            return false;
-        }
+        // if (course_name == "" || course_name == "Select Course" || course_name == null) {
+        //     errorInOut();
+        //     setError("Please Select Course ");
+        //     return false;
+        // }
 
         setError("")
         const QuestionDetails = {
@@ -169,10 +177,12 @@ export default function GenerateQuestion() {
             five_mark: five_mark_question,
             ten_mark: ten_mark_question,
             prac: prac_question,
+            topic: topic.toLowerCase(),
         }
 
         service.getQuestion(QuestionDetails).then((res) => {
             setData(res.data);
+            console.log(res.data)
             if (res.data.short_key.length < local_question_details.short_key) {
                 setQuestionError(`We don't have enough short key question's`)
                 tl2.current.play();
@@ -286,7 +296,10 @@ export default function GenerateQuestion() {
                                     </Col>
                                 </Row>
                             </div>
-
+                            <div>
+                                <label htmlFor="">TOPIC</label>
+                                <input type="text" onChange={(e) => { handleTopic(e) }} />
+                            </div>
                             <div>
                                 <div>
                                     <h5><span className="text-success mx-1 mt-3"><i className="ri-menu-3-fill"></i></span>Assessmen Weights</h5>
@@ -325,7 +338,7 @@ export default function GenerateQuestion() {
                 </div>
 
                 <div className="error">
-                    <p className="p-0 m-0 text-danger fs-5">{error}</p>
+                    <p className="p-0 m-0 text-light fs-5">{error}</p>
                 </div>
 
                 <div style={{ backgroundColor: '#fbeac9', color: '#C77700' }} className="question-error rounded d-flex justify-content-center align-items-center p-2">
