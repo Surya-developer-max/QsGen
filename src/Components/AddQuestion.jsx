@@ -26,7 +26,7 @@ export default function AddQuestion() {
     const [allQuestion, setAllQuestion] = useState([])
     const [filterQuestion, setFilterQuestion] = useState([])
     const el = document.querySelector('.topic-overlay')
-
+    const [count, setCount] = useState(0)
     useEffect(() => {
         service.getAllQuestion().then(res => {
             setAllQuestion(res.data)
@@ -37,7 +37,9 @@ export default function AddQuestion() {
         const el = document.querySelector('.topic-overlay')
 
         el.style.height = "0px"
-    }, [])
+        console.log(count)
+
+    }, [count])
 
 
     useEffect(() => {
@@ -119,6 +121,9 @@ export default function AddQuestion() {
             el.style.height = "0px"
         }
     }
+    function colseOverlay() {
+        el.style.height = "0px"
+    }
     function setValue(e) {
         console.log(e)
         console.log(filterQuestion[e])
@@ -145,6 +150,8 @@ export default function AddQuestion() {
 
             service.addQuestion(data).then((res) => {
                 tl.current.play();
+                setCount(prev => prev += 1)
+
 
             }).catch((e) => {
 
@@ -162,6 +169,7 @@ export default function AddQuestion() {
                     tl.current.reverse();
                 }, 2000);
                 setData([]);
+                setCount(prev => prev++)
             }).catch(e => {
                 console.log(e)
             })
@@ -267,9 +275,10 @@ export default function AddQuestion() {
                                     <input type="text" onChange={(e) => { handleTopic(e) }} value={topic} />
                                 </div>
                                 <div className='position-absolute  bg-light border topic-overlay rounded-3 overflow-auto' style={{ height: '200px', width: '720px' }}>
+                                    <p className='position-absolute  btn btn-danger m-2 ' onClick={colseOverlay} style={{ right: '0px' }}>close</p>
                                     {filterQuestion.map((el, inx) => {
                                         return (
-                                            <p key={inx} onClick={() => { setValue(inx) }} className='cursor-pointer'>{el.question}</p>
+                                            <p key={inx} onClick={() => { setValue(inx) }} className='cursor-pointer  fs-6 m-0 px-3 py-1 my-1'>{el.topic}: {el.question}</p>
                                         )
                                     })}
                                 </div>

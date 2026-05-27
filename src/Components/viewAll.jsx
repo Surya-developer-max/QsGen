@@ -101,9 +101,7 @@ export default function ViewAll() {
             setData(data.sort((a, b) => b.id - a.id))
             const currentPage = data.slice(indexOfFirstQuestion, indexOfLaseQuestion)
             setDummyData(currentPage)
-            setTimeout(() => {
-                setIsLoading(false)
-            }, 2000);
+            setIsLoading(false)
         }).catch((e) => {
             console.log(e)
         })
@@ -220,10 +218,10 @@ export default function ViewAll() {
         }
         setSearch(e.target.value)
     }
-     function handleFilterTopic(e) {
+    function handleFilterTopic(e) {
         setFilterTopic(e.target.value)
     }
-   
+
     // ------------------FOR HANDLE EDIT--------------------
     function handleEdit(id) {
         service.getQuestionById(id).then((res) => {
