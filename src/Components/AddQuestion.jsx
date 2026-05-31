@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import service from '../Service/service';
 export default function AddQuestion() {
 
+    const [isLoading, setIsLoading] = useState(false)
     const [course_name, setCourse_name] = useState("Select Course");
     const [difficulty_level, setDifficulty_level] = useState("Difficulty Level");
     const [question, setQuestion] = useState("");
@@ -138,7 +139,7 @@ export default function AddQuestion() {
     // ----------------------------------------SUBMIT HANDLER-----------------------------------
     function handleSubmit(e) {
         e.preventDefault();
-
+        setIsLoading(true)
         if (fileRef.current.value == "") {
             const data = {
                 course_name: course_name,
@@ -149,6 +150,7 @@ export default function AddQuestion() {
             }
 
             service.addQuestion(data).then((res) => {
+                setIsLoading(false)
                 tl.current.play();
                 setCount(prev => prev += 1)
 
@@ -156,6 +158,7 @@ export default function AddQuestion() {
             }).catch((e) => {
 
                 if (e.status == 500) {
+                    setIsLoading(false)
                     setError("Question already exist");
                     errorInOut();
                 }
@@ -164,6 +167,7 @@ export default function AddQuestion() {
         else {
             service.addBulkQuestions(data).then((res) => {
                 console.log(res)
+                setIsLoading(false)
                 tl.current.play();
                 setTimeout(() => {
                     tl.current.reverse();
@@ -171,6 +175,7 @@ export default function AddQuestion() {
                 setData([]);
                 setCount(prev => prev++)
             }).catch(e => {
+                setIsLoading(false)
                 console.log(e)
             })
         }
@@ -297,6 +302,22 @@ export default function AddQuestion() {
                         </div>
                     </form>
                 </div>
+
+                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '1', backgroundColor: '#09090971' }}>
+                    <div className="loader-div d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
+                        {/* <!-- From Uiverse.io by anand_4957 --> */}
+                        <div class="book">
+                            <div class="book__pg-shadow"></div>
+                            <div class="book__pg"></div>
+                            <div class="book__pg book__pg--2"></div>
+                            <div class="book__pg book__pg--3"></div>
+                            <div class="book__pg book__pg--4"></div>
+                            <div class="book__pg book__pg--5"></div>
+                        </div>
+
+                    </div>
+                </div>
+                    : ""}
 
                 <div className="error">
                     <p className="p-0 m-0 text-light fs-5">{error}</p>
