@@ -103,6 +103,7 @@ export default function ViewAll() {
             setDummyData(currentPage)
             setIsLoading(false)
         }).catch((e) => {
+            setIsLoading(false)
             console.log(e)
         })
     }, [count])
@@ -236,6 +237,7 @@ export default function ViewAll() {
             setTopic(data.topic)
             tl.current.play();
         }).catch((e) => {
+            setIsLoading(false)
             console.log(e)
         })
     }
@@ -258,6 +260,7 @@ export default function ViewAll() {
             }))
             tl3.current.reverse();
         }).catch((e) => {
+            setIsLoading(false)
             console.log(e);
         })
     }
@@ -287,6 +290,7 @@ export default function ViewAll() {
 
         }).catch((e) => {
             console.log(e.status)
+            setIsLoading(false)
             if (e.status == 500) {
                 setError("Question Already Exist")
                 errorInOut();
