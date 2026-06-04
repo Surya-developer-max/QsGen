@@ -303,16 +303,16 @@ export default function AddQuestion() {
                     </form>
                 </div>
 
-                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '1', backgroundColor: '#09090971' }}>
+                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '10', backgroundColor: '#09090971' }}>
                     <div className="loader-div d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
                         {/* <!-- From Uiverse.io by anand_4957 --> */}
-                        <div class="book">
-                            <div class="book__pg-shadow"></div>
-                            <div class="book__pg"></div>
-                            <div class="book__pg book__pg--2"></div>
-                            <div class="book__pg book__pg--3"></div>
-                            <div class="book__pg book__pg--4"></div>
-                            <div class="book__pg book__pg--5"></div>
+                        <div className="book">
+                            <div className="book__pg-shadow"></div>
+                            <div className="book__pg"></div>
+                            <div className="book__pg book__pg--2"></div>
+                            <div className="book__pg book__pg--3"></div>
+                            <div className="book__pg book__pg--4"></div>
+                            <div className="book__pg book__pg--5"></div>
                         </div>
 
                     </div>

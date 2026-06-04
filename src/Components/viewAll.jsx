@@ -224,9 +224,11 @@ export default function ViewAll() {
 
     // ------------------FOR HANDLE EDIT--------------------
     function handleEdit(id) {
+        setIsLoading(true)
         service.getQuestionById(id).then((res) => {
             setQuestionId(id);
             var data = res.data;
+            setIsLoading(false)
             setCourse_name(data.course_name);
             setDifficulty_level(data.difficulty_level)
             setMark(data.marks)
@@ -239,17 +241,15 @@ export default function ViewAll() {
     }
     // --------------------FOR HANDLE DELETE---------------------
     function handleDelete(id) {
-
         setDeleteId(id)
         tl3.current.play()
-
-
     }
     function conformDelete() {
-
+        setIsLoading(true)
         service.deleteQuestion(deleteId).then((res) => {
             setError("Question deleted")
             errorInOut();
+            setIsLoading(false)
             setData(data.filter(a => {
                 return a.id !== deleteId;
             }))
@@ -273,8 +273,9 @@ export default function ViewAll() {
             marks: mark,
             topic: topic
         }
-
+        setIsLoading(true)
         service.editQustion(data, questionId).then((res) => {
+            setIsLoading(false)
             setCount(count + 1)
             tl.current.reverse();
             setTimeout(() => {
@@ -386,44 +387,29 @@ export default function ViewAll() {
                             </div>
                             <div className=""><p className="text-secondary m-0" style={{ fontWeight: '500', fontSize: '13px' }}>Showing:{filterDataLength == 0 ? dummyData.length : filterDataLength} of {data.length}</p></div>
                             <div>
-                                {isLoading ?
-                                    <div className="loader-div d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
-                                        {/* <!-- From Uiverse.io by anand_4957 --> */}
-                                        <div class="book">
-                                            <div class="book__pg-shadow"></div>
-                                            <div class="book__pg"></div>
-                                            <div class="book__pg book__pg--2"></div>
-                                            <div class="book__pg book__pg--3"></div>
-                                            <div class="book__pg book__pg--4"></div>
-                                            <div class="book__pg book__pg--5"></div>
-                                        </div>
-
-                                    </div> :
-                                    <div>
-                                        {dummyData.length != 0 ? dummyData.map((val, inx) => {
-                                            return (
-                                                <div key={inx} className="d-flex  my-2 p-2  rounded question-block"  >
-                                                    <div className="part-1">
-                                                        <p className="m-0">{val.question} </p>
-                                                    </div>
-                                                    <div className="part-2"> <p className="text-success m-0">{val.course_name}</p></div>
-                                                    <div className="part-3"><p className=" mark py-1 px-2 rounded m-0" >{val.marks == "two_mark" ? "2M" : val.marks == "five_mark" ? "5M" : val.marks == "ten_mark" ? "10M" : val.marks == "short_key" ? "1M" : "prac"}</p></div>
-                                                    <div className="part-4">
-                                                        {val.difficulty_level == "Easy" ? <div className="diffi-level" style={{ backgroundColor: '#d4f8e0', color: '#1E8E3E' }}> <div className="dot" style={{ backgroundColor: '#1E8E3E' }}></div> <p className="m-0" >  EASY</p></div> :
-                                                            val.difficulty_level == "Medium" ? <div className="diffi-level" style={{ backgroundColor: '#fbeac9', color: '#C77700' }}> <div className="dot" style={{ backgroundColor: ' #C77700' }}></div> <p className="m-0" >MEDIUM</p></div> :
-                                                                <div className="diffi-level" style={{ backgroundColor: '#f8d1d0', color: '#D32F2F' }}> <div className="dot" style={{ backgroundColor: '#D32F2F' }}></div> <p className="m-0" >  HARD</p></div>}</div>
-                                                    <div className="part-2"> <p className="text-success m-0">{val.topic}</p></div>
-                                                    <div className="part-5"><i className="ri-pencil-ai-line mx-1 icon-hover p-2" onClick={(e) => { handleEdit(val.id) }}></i><i className="ri-delete-bin-line mx-1 icon-hover p-2" onClick={() => { handleDelete(val.id) }}></i></div>
+                                <div>
+                                    {dummyData.length != 0 ? dummyData.map((val, inx) => {
+                                        return (
+                                            <div key={inx} className="d-flex  my-2 p-2  rounded question-block"  >
+                                                <div className="part-1">
+                                                    <p className="m-0">{val.question} </p>
                                                 </div>
-                                            )
-                                        }) :
-                                            <div className="w-100  d-flex justify-content-center align-items-center" >
-                                                <img src={NoData} style={{ width: '400px' }} className="img-fluid" alt="" />
+                                                <div className="part-2"> <p className="text-success m-0">{val.course_name}</p></div>
+                                                <div className="part-3"><p className=" mark py-1 px-2 rounded m-0" >{val.marks == "two_mark" ? "2M" : val.marks == "five_mark" ? "5M" : val.marks == "ten_mark" ? "10M" : val.marks == "short_key" ? "1M" : "prac"}</p></div>
+                                                <div className="part-4">
+                                                    {val.difficulty_level == "Easy" ? <div className="diffi-level" style={{ backgroundColor: '#d4f8e0', color: '#1E8E3E' }}> <div className="dot" style={{ backgroundColor: '#1E8E3E' }}></div> <p className="m-0" >  EASY</p></div> :
+                                                        val.difficulty_level == "Medium" ? <div className="diffi-level" style={{ backgroundColor: '#fbeac9', color: '#C77700' }}> <div className="dot" style={{ backgroundColor: ' #C77700' }}></div> <p className="m-0" >MEDIUM</p></div> :
+                                                            <div className="diffi-level" style={{ backgroundColor: '#f8d1d0', color: '#D32F2F' }}> <div className="dot" style={{ backgroundColor: '#D32F2F' }}></div> <p className="m-0" >  HARD</p></div>}</div>
+                                                <div className="part-2"> <p className="text-success m-0">{val.topic}</p></div>
+                                                <div className="part-5"><i className="ri-pencil-ai-line mx-1 icon-hover p-2" onClick={(e) => { handleEdit(val.id) }}></i><i className="ri-delete-bin-line mx-1 icon-hover p-2" onClick={() => { handleDelete(val.id) }}></i></div>
                                             </div>
-                                        }
-                                    </div>
-                                }
-
+                                        )
+                                    }) :
+                                        <div className="w-100  d-flex justify-content-center align-items-center" >
+                                            <img src={NoData} style={{ width: '400px' }} className="img-fluid" alt="" />
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -515,6 +501,22 @@ export default function ViewAll() {
                 <div className="edit-pop-up rounded m-1 d-flex justify-content-center align-items-center">
                     <p className="m-0" >Updated</p>
                 </div>
+                {/* loader */}
+                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '10', backgroundColor: '#09090971' }}>
+                    <div className="loader-div d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
+                        {/* <!-- From Uiverse.io by anand_4957 --> */}
+                        <div className="book">
+                            <div className="book__pg-shadow"></div>
+                            <div className="book__pg"></div>
+                            <div className="book__pg book__pg--2"></div>
+                            <div className="book__pg book__pg--3"></div>
+                            <div className="book__pg book__pg--4"></div>
+                            <div className="book__pg book__pg--5"></div>
+                        </div>
+
+                    </div>
+                </div>
+                    : ""}
             </div >
         </>
     );
