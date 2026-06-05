@@ -8,7 +8,7 @@ export default function Navbar() {
     return (
         <>
             <BrowserRouter>
-                <div className="nav-container shadow">
+                <div className="nav-container shadow position-relative" style={{zIndex:'5'}}>
                     <div className="part1 ">
                         <Link to='/'><img src={FutoGenLogo} className='futogen-logo ' alt="" /></Link>
                     </div>

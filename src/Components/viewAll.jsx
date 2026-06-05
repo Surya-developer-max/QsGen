@@ -494,7 +494,8 @@ export default function ViewAll() {
                         </form>
                     </div>
                 </div>
-                <div className="conform-delete shadow rounded p-5 d-flex flex-column justify-content-center align-items-center">
+                {/* conform delete */}
+                <div className="conform-delete shadow rounded p-5 d-flex flex-column justify-content-center align-items-center position-absolute " style={{ zIndex: '1' }}>
                     <p className="m-0 p-1 " style={{ fontWeight: '600' }}>Are you sure! </p>
                     <div>
                         <button className="btn btn-success m-1 px-4" onClick={() => { tl3.current.reverse() }} >Close</button>
@@ -506,7 +507,7 @@ export default function ViewAll() {
                     <p className="m-0" >Updated</p>
                 </div>
                 {/* loader */}
-                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '1', backgroundColor: '#09090971' }}>
+                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '2', backgroundColor: '#09090971' }}>
                     <div className="loader-div d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
                         {/* <!-- From Uiverse.io by anand_4957 --> */}
                         <div className="book">
