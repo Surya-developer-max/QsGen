@@ -506,7 +506,7 @@ export default function ViewAll() {
                     <p className="m-0" >Updated</p>
                 </div>
                 {/* loader */}
-                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '10', backgroundColor: '#09090971' }}>
+                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '1', backgroundColor: '#09090971' }}>
                     <div className="loader-div d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
                         {/* <!-- From Uiverse.io by anand_4957 --> */}
                         <div className="book">
