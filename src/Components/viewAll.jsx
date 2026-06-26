@@ -110,6 +110,7 @@ export default function ViewAll() {
 
     // -------------------FILTER DATA---------------------
     useEffect(() => {
+        console.log(data)
         let result = data;
         //    search
         if (search != "" && search) {
@@ -246,6 +247,13 @@ export default function ViewAll() {
         setDeleteId(id)
         tl3.current.play()
     }
+    function handleAllQuestionDelete() {
+        service.deleteAllQustion().then(() => {
+            setDummyData([]);
+        }).catch(err => {
+            console.log(err)
+        })
+    }
     function conformDelete() {
         setIsLoading(true)
         service.deleteQuestion(deleteId).then((res) => {
@@ -375,6 +383,10 @@ export default function ViewAll() {
                                 </div>
                             </Col>
                         </Row>
+                    </div>
+                    <div className="d-flex justify-items-around w-100" style={{width:'100%'}}>
+                        <button onClick={() => { handleAllQuestionDelete() }} className="btn btn-warning ">Delete all</button>
+                        <button onClick={() => { handleAllQuestionDelete() }} className="btn btn-warning ">Delete all</button>
                     </div>
                     {/*--------------------- QUESTION BODY---------------------------- */}
                     <div className=" question-container overflow-x-scroll">
@@ -507,7 +519,7 @@ export default function ViewAll() {
                     <p className="m-0" >Updated</p>
                 </div>
                 {/* loader */}
-                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '2', backgroundColor: '#09090971' }}>
+                {isLoading ? <div className='position-absolute top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '11', backgroundColor: '#09090971' }}>
                     <div className="loader-div d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
                         {/* <!-- From Uiverse.io by anand_4957 --> */}
                         <div className="book">

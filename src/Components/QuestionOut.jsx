@@ -19,6 +19,7 @@ export default function QuestionOut() {
     const [prac_question, setPrac_Question] = useState();
     const [short_key, setShort_key] = useState();
 
+    console.log(data);
     if (!data || !local_question_details) {
         return <h2>No Data Found</h2>;
     }
@@ -237,7 +238,7 @@ export default function QuestionOut() {
                                 {/* ------------------------------------PRAC MARK PART-------------------------------------- */}
 
                                 <div className='section'>
-                                    {local_question_details.prac > local_question_details.prac ?
+                                    {local_question_details.prac ?
                                         <div style={{ width: '100%' }}>
                                             <div className='   d-flex justify-content-between' >
                                                 <div className='d-flex'>

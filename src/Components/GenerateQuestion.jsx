@@ -25,6 +25,8 @@ export default function GenerateQuestion() {
     const [course_name, setCourse_name] = useState("Select Course")
     const [total_calculated_mark, setTotal_calculated_mark] = useState(0)
     const [data, setData] = useState();
+    const [topics, setTopics] = useState([])
+    const [selectedTopics, setSelectedTopics] = useState([])
     const tl = useRef();
     const tl2 = useRef();
 
@@ -37,8 +39,10 @@ export default function GenerateQuestion() {
         total_mark: total_calculated_mark,
         course_name: course_name,
     }
-
     useEffect(() => {
+        service.getTopicsOnly().then((res) => {
+            setTopics(res.data)
+        })
         setTotal_calculated_mark((two_mark_question * 2) + (five_mark_question * 5) + (short_key * 1) + (ten_mark_question * 10) + (prac_question * 10))
         buttonRef.current.setAttribute("disabled", "true")
 
@@ -107,6 +111,16 @@ export default function GenerateQuestion() {
     }
     function handleTopic(e) {
         setTopic(e.target.value)
+        const value = e.target.value;
+        if (value == "Select Topic") {
+            return;
+        }
+        else {
+            setSelectedTopics(prev =>
+                prev.includes(value) ? prev : [...prev, value]
+            );
+        }
+
         if (e.target.value == "") {
             errorInOut();
             setError("Topic Con't be Empty ");
@@ -169,6 +183,9 @@ export default function GenerateQuestion() {
         // }
 
         setError("")
+        setSelectedTopics(prev =>
+            prev.map(topic => topic.toLowerCase())
+        );
         const QuestionDetails = {
             course_name: course_name,
             difficulty_level: difficulty_level,
@@ -177,13 +194,13 @@ export default function GenerateQuestion() {
             five_mark: five_mark_question,
             ten_mark: ten_mark_question,
             prac: prac_question,
-            topic: topic.toLowerCase(),
+            topic: selectedTopics,
         }
+        console.log(QuestionDetails)
 
         service.getQuestion(QuestionDetails).then((res) => {
             setData(res.data);
-            console.log(res.data)
-            if (res.data.short_key.length < local_question_details.short_key) {
+            if (res.data.short_key.length <= local_question_details.short_key) {
                 setQuestionError(`We don't have enough short key question's`)
                 tl2.current.play();
                 setTimeout(() => {
@@ -227,6 +244,11 @@ export default function GenerateQuestion() {
         )
     }
 
+    function deleteTopic(val) {
+        setSelectedTopics(prev =>
+            prev.filter(topic => topic !== val)
+        );
+    }
     function handleClose() {
         tl.current.reverse();
     }
@@ -298,7 +320,21 @@ export default function GenerateQuestion() {
                             </div>
                             <div>
                                 <label htmlFor="">TOPIC</label>
-                                <input type="text" onChange={(e) => { handleTopic(e) }} />
+                                <br />
+                                <select name="" id="" onChange={(e) => { handleTopic(e) }} className="border-0 rounded" style={{ width: '100%', height: '50px' }}>
+                                    <option value="Select Topic">Select Topic</option>
+                                    {topics.map((topic, index) => (
+                                        <option key={index} value={topic}>
+                                            {topic}
+                                        </option>
+                                    ))}
+                                </select>
+                                {/* <input type="text" onChange={(e) => { handleTopic(e) }} /> */}
+                            </div>
+                            <div className="d-flex mt-3">
+                                {selectedTopics.map((val, inx) =>
+                                    <p key={inx} className="mx-2 bg-danger text-white rounded-2 px-2 " style={{ cursor: 'pointer' }} onClick={() => { deleteTopic(val) }}>{val}</p>
+                                )}
                             </div>
                             <div>
                                 <div>
