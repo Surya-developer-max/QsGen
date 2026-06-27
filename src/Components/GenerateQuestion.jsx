@@ -167,9 +167,6 @@ export default function GenerateQuestion() {
     function handleSubmit(e) {
         e.preventDefault();
         setError("")
-        setSelectedTopics(prev =>
-            prev.map(topic => topic.toLowerCase())
-        );
         const QuestionDetails = {
             course_name: course_name,
             difficulty_level: difficulty_level,
@@ -180,6 +177,7 @@ export default function GenerateQuestion() {
             prac: prac_question,
             topic: selectedTopics,
         }
+
         service.getQuestion(QuestionDetails).then((res) => {
             setData(res.data);
 
@@ -231,6 +229,7 @@ export default function GenerateQuestion() {
             if (res.data.prac.length > local_question_details.prac || res.data.short_key.length > local_question_details.short_key || res.data.two_mark.length > local_question_details.two_mark || res.data.five_mark.length > local_question_details.five_mark || res.data.ten_mark.length > local_question_details.ten_mark) {
                 tl.current.play();
             }
+            console.log(res.data.prac.length,local_question_details)
         }).catch((erroe) => {
             console.log(erroe)
         }
