@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function GenerateQuestion() {
 
+    const [isLoading, setIsLoading] = useState(false)
     const navigater = useNavigate()
     const buttonRef = useRef();
     const [total_mark, setTotal_mark] = useState(1);
@@ -165,6 +166,8 @@ export default function GenerateQuestion() {
     }
 
     function handleSubmit(e) {
+        console.log("im cllicked")
+        setIsLoading(true)
         e.preventDefault();
         setError("")
         const QuestionDetails = {
@@ -180,7 +183,6 @@ export default function GenerateQuestion() {
 
         service.getQuestion(QuestionDetails).then((res) => {
             setData(res.data);
-
             if (res.data.short_key.length <= local_question_details.short_key) {
                 if (local_question_details.short_key == 0)
                     return;
@@ -229,9 +231,13 @@ export default function GenerateQuestion() {
             if (res.data.prac.length > local_question_details.prac || res.data.short_key.length > local_question_details.short_key || res.data.two_mark.length > local_question_details.two_mark || res.data.five_mark.length > local_question_details.five_mark || res.data.ten_mark.length > local_question_details.ten_mark) {
                 tl.current.play();
             }
-            console.log(res.data.prac.length,local_question_details)
+            console.log(res.data.prac.length, local_question_details)
+            setIsLoading(false)
+
         }).catch((erroe) => {
             console.log(erroe)
+            setIsLoading(false)
+
         }
         )
     }
@@ -253,7 +259,7 @@ export default function GenerateQuestion() {
     }
 
     return (
-        <>
+        <div>
             <div className="main-container mt-5 w-100 d-flex justify-content-center" >
                 <div className="body-container position-relative" style={{ zIndex: '1' }}>
                     <div className="header d-flex justify-content-center align-items-center w-100 flex-column">
@@ -380,6 +386,22 @@ export default function GenerateQuestion() {
                     </div>
                 </div>
             </div >
-        </>
+            {isLoading ? <div className='position-fixed top-0  d-flex justify-content-center align-items-center' style={{ height: '100vh', width: '100vw', zIndex: '11', backgroundColor: '#09090971' }}>
+                <div className="loader-div d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
+                    {/* <!-- From Uiverse.io by anand_4957 --> */}
+                    <div className="book">
+                        <div className="book__pg-shadow"></div>
+                        <div className="book__pg"></div>
+                        <div className="book__pg book__pg--2"></div>
+                        <div className="book__pg book__pg--3"></div>
+                        <div className="book__pg book__pg--4"></div>
+                        <div className="book__pg book__pg--5"></div>
+                    </div>
+
+                </div>
+            </div>
+                : ""}
+        </div>
+
     );
 }
