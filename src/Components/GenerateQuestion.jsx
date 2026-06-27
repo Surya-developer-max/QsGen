@@ -182,7 +182,8 @@ export default function GenerateQuestion() {
         }
         service.getQuestion(QuestionDetails).then((res) => {
             setData(res.data);
-            if (res.data.short_key.length <= local_question_details.short_key) {
+
+            if (res.data.short_key.length <= local_question_details.short_key  ) {
                 setQuestionError(`We don't have enough short key question's`)
                 tl2.current.play();
                 setTimeout(() => {
@@ -218,7 +219,7 @@ export default function GenerateQuestion() {
                 }, 1000);
             }
             if (res.data.prac.length > local_question_details.prac || res.data.short_key.length > local_question_details.short_key || res.data.two_mark.length > local_question_details.two_mark || res.data.five_mark.length > local_question_details.five_mark || res.data.ten_mark.length > local_question_details.ten_mark) {
-                tl.current.play();
+                // tl.current.play();
             }
         }).catch((erroe) => {
             console.log(erroe)
