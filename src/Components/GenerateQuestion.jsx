@@ -30,6 +30,7 @@ export default function GenerateQuestion() {
     const tl = useRef();
     const tl2 = useRef();
 
+
     const local_question_details = {
         short_key: short_key,
         two_mark: two_mark_question,
@@ -196,6 +197,7 @@ export default function GenerateQuestion() {
             prac: prac_question,
             topic: selectedTopics,
         }
+
         console.log(QuestionDetails)
 
         service.getQuestion(QuestionDetails).then((res) => {

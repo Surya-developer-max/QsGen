@@ -32,5 +32,14 @@ export default new class serive {
     deleteAllQustion() {
         return axios.delete(`${base_url}/deleteAllQuestions`)
     }
+    deleteByIds(ids) {
+        console.log(ids)
+        return axios.delete(`${base_url}/deleteByIds`, {
+            data: ids,
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+    }
 
 }

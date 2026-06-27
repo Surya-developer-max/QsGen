@@ -42,6 +42,8 @@ export default function ViewAll() {
     const [search, setSearch] = useState(null);
     const [filterTopic, setFilterTopic] = useState("")
     const navigate = useNavigate();
+    const [deleteByIdsData, setDeleteByIdsData] = useState([]);
+
 
     const tl = useRef();
     const btnRef = useRef("");
@@ -110,7 +112,6 @@ export default function ViewAll() {
 
     // -------------------FILTER DATA---------------------
     useEffect(() => {
-        console.log(data)
         let result = data;
         //    search
         if (search != "" && search) {
@@ -145,9 +146,31 @@ export default function ViewAll() {
         setFilterDummyPages(Math.ceil(result.length / questionPerPage))
         setDummyData(currentPage1)
 
+        const ids = result.map(val => val.id);
+        console.log(ids)
+        setDeleteByIdsData(ids);
+
+        // console.log(deleteByIdsData)
+
     }, [filterCourseName, filterDiffi, filterMark, search, currentPage, filterTopic])
 
 
+    function deleteByIds() {
+        if (!deleteByIdsData || deleteByIdsData.length === 0) {
+            return;
+        }
+        setIsLoading(true)
+        service.deleteByIds(deleteByIdsData).then((res) => {
+            console.log(res)
+            setDummyData([]);
+            setCount(prev => prev + 1)
+            setIsLoading(false)
+        }).catch((err) => {
+            console.log(err)
+            setIsLoading(false)
+
+        })
+    }
     function handleClose() {
         tl.current.reverse();
     }
@@ -247,10 +270,15 @@ export default function ViewAll() {
         setDeleteId(id)
         tl3.current.play()
     }
+
     function handleAllQuestionDelete() {
+        setIsLoading(true)
         service.deleteAllQustion().then(() => {
-            setDummyData([]);
+            setCount(prev => prev + 1)
+            setIsLoading(false)
         }).catch(err => {
+            setIsLoading(false)
+
             console.log(err)
         })
     }
@@ -384,9 +412,9 @@ export default function ViewAll() {
                             </Col>
                         </Row>
                     </div>
-                    <div className="d-flex justify-items-around w-100" style={{width:'100%'}}>
+                    <div className="d-flex justify-content-between " style={{ width: '100%' }}>
                         <button onClick={() => { handleAllQuestionDelete() }} className="btn btn-warning ">Delete all</button>
-                        <button onClick={() => { handleAllQuestionDelete() }} className="btn btn-warning ">Delete all</button>
+                        <button onClick={() => { deleteByIds() }} className="btn btn-danger ">Delete by filter </button>
                     </div>
                     {/*--------------------- QUESTION BODY---------------------------- */}
                     <div className=" question-container overflow-x-scroll">
