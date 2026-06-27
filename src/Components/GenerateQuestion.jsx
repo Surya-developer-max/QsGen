@@ -209,37 +209,35 @@ export default function GenerateQuestion() {
                     tl2.current.reverse();
                 }, 1000);
             }
-            else if (res.data.two_mark.length < local_question_details.two_mark) {
+            if (res.data.two_mark.length < local_question_details.two_mark) {
                 setQuestionError(`We don't have enough two mark question's`)
                 tl2.current.play();
                 setTimeout(() => {
                     tl2.current.reverse();
                 }, 1000);
             }
-            else if (res.data.five_mark.length < local_question_details.five_mark) {
+            if (res.data.five_mark.length < local_question_details.five_mark) {
                 setQuestionError(`We don't have enough five mark question's`)
                 tl2.current.play();
                 setTimeout(() => {
                     tl2.current.reverse();
                 }, 1000);
             }
-            else if (res.data.ten_mark.length < local_question_details.ten_mark) {
+            if (res.data.ten_mark.length < local_question_details.ten_mark) {
                 setQuestionError(`We don't have enough ten mark question's`)
                 tl2.current.play();
                 setTimeout(() => {
                     tl2.current.reverse();
                 }, 1000);
             }
-            else if (res.data.prac.length < local_question_details.prac) {
+            if (res.data.prac.length < local_question_details.prac) {
                 setQuestionError(`We don't have enough pratical question's`)
                 tl2.current.play();
                 setTimeout(() => {
                     tl2.current.reverse();
                 }, 1000);
             }
-            else {
-                tl.current.play();
-            }
+            tl.current.play();
         }).catch((erroe) => {
             console.log(erroe)
         }
