@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useParams } from "react-router-dom";
-const base_url = "https://qsgeneraterbackend-1.onrender.com/api/question"
+const base_url = "https://qsgeneraterbackend-2.onrender.com/api/question"
 // const base_url = "http://localhost:8080/api/question"
 export default new class serive {
 
