@@ -439,7 +439,7 @@ export default function ViewAll() {
                                                     <p className="m-0">{val.question} </p>
                                                 </div>
                                                 <div className="part-2"> <p className="text-success m-0">{val.course_name}</p></div>
-                                                <div className="part-3"><p className=" mark py-1 px-2 rounded m-0" >{val.marks == "two_mark" ? "2M" : val.marks == "five_mark" ? "5M" : val.marks == "ten_mark" ? "10M" : val.marks == "short_key" ? "1M" : "prac"}</p></div>
+                                                <div className="part-3"><p className=" mark py-1 px-2 rounded m-0" >{val.marks == "two_mark" ? "2M" : val.marks == "five_mark" ? "5M" : val.marks == "ten_mark" ? "10M" : val.marks == "short_key" ? "1M" : val.marks == "prac" ? "prac" : "-_-"}</p></div>
                                                 <div className="part-4">
                                                     {val.difficulty_level == "Easy" ? <div className="diffi-level" style={{ backgroundColor: '#d4f8e0', color: '#1E8E3E' }}> <div className="dot" style={{ backgroundColor: '#1E8E3E' }}></div> <p className="m-0" >  EASY</p></div> :
                                                         val.difficulty_level == "Medium" ? <div className="diffi-level" style={{ backgroundColor: '#fbeac9', color: '#C77700' }}> <div className="dot" style={{ backgroundColor: ' #C77700' }}></div> <p className="m-0" >MEDIUM</p></div> :
