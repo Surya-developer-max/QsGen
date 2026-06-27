@@ -146,7 +146,7 @@ export default function AddQuestion() {
                 question: question,
                 difficulty_level: difficulty_level,
                 marks: mark,
-                topic: topic.toLowerCase(),
+                topic: topic.trim(),
             }
 
             service.addQuestion(data).then((res) => {
