@@ -104,6 +104,7 @@ export default function GenerateQuestion() {
             setError("Enter valid Short key ");
         }
     }
+
     function handleTwoMarks(e) {
         setTwo_marks_question(Number(e.target.value))
         if (isNaN(e.target.value)) {
@@ -111,6 +112,7 @@ export default function GenerateQuestion() {
             setError("Enter Valid 2 Mark Question ");
         }
     }
+
     function handleTopic(e) {
         setTopic(e.target.value)
         const value = e.target.value;
@@ -185,65 +187,71 @@ export default function GenerateQuestion() {
             setData(res.data);
             if (res.data.short_key.length <= local_question_details.short_key) {
                 setIsLoading(false)
-                if (local_question_details.short_key == 0)
+                if (short_key != 0) {
+                    setQuestionError(`We don't have enough short key question's`)
+                    tl2.current.play();
+                    setTimeout(() => {
+                        tl2.current.reverse();
+                    }, 1000);
                     return;
-                setQuestionError(`We don't have enough short key question's`)
-                tl2.current.play();
-                setTimeout(() => {
-                    tl2.current.reverse();
-                }, 1000);
+                }
             }
             if (res.data.two_mark.length <= local_question_details.two_mark) {
                 setIsLoading(false)
-                if (local_question_details.two_mark == 0)
+                if (two_mark_question != 0) {
+                    setQuestionError(`We don't have enough two mark question's`)
+                    tl2.current.play();
+                    setTimeout(() => {
+                        tl2.current.reverse();
+                    }, 1000);
                     return;
-                setQuestionError(`We don't have enough two mark question's`)
-                tl2.current.play();
-                setTimeout(() => {
-                    tl2.current.reverse();
-                }, 1000);
+
+                }
             }
             if (res.data.five_mark.length <= local_question_details.five_mark) {
                 setIsLoading(false)
-                if (local_question_details.five_mark == 0)
+                if (five_mark_question != 0) {
+                    setQuestionError(`We don't have enough five mark question's`)
+                    tl2.current.play();
+                    setTimeout(() => {
+                        tl2.current.reverse();
+                    }, 1000);
                     return;
-                setQuestionError(`We don't have enough five mark question's`)
-                tl2.current.play();
-                setTimeout(() => {
-                    tl2.current.reverse();
-                }, 1000);
+
+                }
             }
             if (res.data.ten_mark.length <= local_question_details.ten_mark) {
                 setIsLoading(false)
-                if (local_question_details.ten_mark == 0)
+                if (ten_mark_question != 0) {
+                    setQuestionError(`We don't have enough ten mark question's`)
+                    tl2.current.play();
+                    setTimeout(() => {
+                        tl2.current.reverse();
+                    }, 1000);
                     return;
-                setQuestionError(`We don't have enough ten mark question's`)
-                tl2.current.play();
-                setTimeout(() => {
-                    tl2.current.reverse();
-                }, 1000);
+
+                }
             }
             if (res.data.prac.length <= local_question_details.prac) {
                 setIsLoading(false)
-                if (local_question_details.prac == 0)
+                if (prac_question != 0) {
+                    setQuestionError(`We don't have enough pratical question's`)
+                    tl2.current.play();
+                    setTimeout(() => {
+                        tl2.current.reverse();
+                    }, 1000);
                     return;
-                setQuestionError(`We don't have enough pratical question's`)
-                tl2.current.play();
-                setTimeout(() => {
-                    tl2.current.reverse();
-                }, 1000);
+                }
             }
-            if (res.data.prac.length > local_question_details.prac || res.data.short_key.length > local_question_details.short_key || res.data.two_mark.length > local_question_details.two_mark || res.data.five_mark.length > local_question_details.five_mark || res.data.ten_mark.length > local_question_details.ten_mark) {
-                setIsLoading(false)
-                tl.current.play();
-            }
-            console.log(res.data.prac.length, local_question_details)
             setIsLoading(false)
+            tl.current.play();
+
+            console.log(res.data.prac.length, local_question_details.prac)
+
 
         }).catch((erroe) => {
             console.log(erroe)
             setIsLoading(false)
-
         }
         )
     }
@@ -408,6 +416,5 @@ export default function GenerateQuestion() {
             </div>
                 : ""}
         </div>
-
     );
 }

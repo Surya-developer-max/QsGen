@@ -15,6 +15,7 @@ export default new class serive {
         return axios.post(`${base_url}/addBulkQuestion`, QuestionData)
     }
     addQuestion(QuestionData) {
+        console.log(QuestionData)
         return axios.post(`${base_url}/addQuestion`, QuestionData)
     }
     deleteQuestion(id) {
