@@ -20,8 +20,8 @@ export default new class serive {
     deleteQuestion(id) {
         return axios.delete(`${base_url}/deleteQuestion/` + id)
     }
-    editQustion(QuestionData, id) {
-        return axios.put(`${base_url}/editQuestion` + id, QuestionData)
+    editQustion(questionData, id) {
+        return axios.put(`${base_url}/editQuestion/${id}`, questionData);
     }
     getQuestionById(id) {
         return axios.get(`${base_url}/getQuestionById/` + id)
